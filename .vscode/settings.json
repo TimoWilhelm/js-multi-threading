@@ -1,0 +1,20 @@
+{
+  "debug.internalConsoleOptions": "neverOpen",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+  ],
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "rust-analyzer.linkedProjects": [
+    "wasm/Cargo.toml"
+  ]
+}

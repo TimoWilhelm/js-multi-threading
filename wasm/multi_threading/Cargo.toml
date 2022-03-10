@@ -1,0 +1,16 @@
+[package]
+name = "multi_threading"
+version = "0.1.0"
+authors = ["Daxo"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[dependencies]
+wasm-bindgen = "0.2"
+js-sys = "0.3"
+console_error_panic_hook = "0.1"
+rayon = "1.5"
+wasm-bindgen-rayon = "1.0"
