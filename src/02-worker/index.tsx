@@ -9,9 +9,11 @@ const worker = wrap<WorkerModule>(
 
 export function WorkerSample() {
   const [time, setTime] = useState(-1);
+  const [working, setWorking] = useState(false);
 
   const sortFunction = useCallback(
     async (array: number[]) => {
+      setWorking(true);
       const data = [...array]; // copy array to avoid mutation
 
       console.log(`in: ${data.slice(0, 10).toString()}...`);
@@ -21,6 +23,7 @@ export function WorkerSample() {
       setTime(performance.now() - start);
 
       console.log(`out: ${result.slice(0, 10).toString()}...`);
+      setWorking(false);
     },
     [setTime],
   );
@@ -31,11 +34,14 @@ export function WorkerSample() {
       <div>
         <button
           type="button"
+          disabled={working}
           onClick={async () => {
             await sortFunction(BIG_ARRAY);
           }}
         >
-          Sort {BIG_ARRAY.length.toLocaleString()} elements
+          {working
+            ? 'Working...'
+            : `Sort ${BIG_ARRAY.length.toLocaleString()} elements`}
         </button>
       </div>
       {time > 0 && <div>Duration: {time.toFixed(3)} ms</div>}
