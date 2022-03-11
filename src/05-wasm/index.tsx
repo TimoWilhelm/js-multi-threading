@@ -3,11 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { REALLY_BIG_ARRAY } from '../util';
 import { WorkerInit } from './worker';
 
-type AsyncReturnType<T extends (...args: any) => Promise<any>> = T extends (
-  ...args: any
-) => Promise<infer R>
-  ? R
-  : any;
+type AsyncReturnType<T extends (...args: any[]) => Promise<unknown>> =
+  T extends (...args: any[]) => Promise<infer R> ? R : never;
 
 const initWorker = wrap<WorkerInit>(
   new Worker(new URL('./worker.ts', import.meta.url)),

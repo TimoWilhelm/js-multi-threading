@@ -1,10 +1,9 @@
 import { expose, proxy, transfer } from 'comlink';
 
 function wrapTransfer<
-  TArgs extends unknown[],
-  TResult extends { buffer: Transferable },
->(func: (...args: [...TArgs]) => TResult) {
-  return (...args: [...TArgs]) => {
+  T extends (...args: any[]) => ReturnType<T> & { buffer: Transferable },
+>(func: T) {
+  return (...args: Parameters<T>) => {
     const result = func(...args);
     return transfer(result, [result.buffer]);
   };
