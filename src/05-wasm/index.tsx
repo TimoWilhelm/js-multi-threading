@@ -6,27 +6,31 @@ import { WorkerInit } from './worker';
 type AsyncReturnType<T extends (...args: any[]) => Promise<unknown>> =
   T extends (...args: any[]) => Promise<infer R> ? R : never;
 
-const initWorker = wrap<WorkerInit>(
-  new Worker(new URL('./worker.ts', import.meta.url)),
-);
-
 export function WasmSample() {
   const [time, setTime] = useState(-1);
   const [working, setWorking] = useState(false);
-  const [worker, setWorker] = useState<{
+  const [module, setModule] = useState<{
     instance: Remote<AsyncReturnType<WorkerInit>>;
   }>();
 
   useEffect(() => {
+    const worker = new Worker(new URL('./worker.ts', import.meta.url));
+    const init = wrap<WorkerInit>(worker);
+
     (async () => {
-      const worker = await initWorker();
-      setWorker({ instance: worker });
+      // Wrapping is necessary because the comlink Remote proxy object
+      // cannot be directly assigned to a react state variable.
+      setModule({ instance: await init() });
     })();
+
+    return () => {
+      worker.terminate();
+    };
   }, []);
 
   const sortFunction = useCallback(
     async (array: number[]) => {
-      if (!worker) {
+      if (!module) {
         throw new Error('Worker not initialized');
       }
       setWorking(true);
@@ -35,7 +39,7 @@ export function WasmSample() {
       console.log(`in: ${data.slice(0, 10).toString()}...`);
 
       const start = performance.now();
-      const result = await worker.instance.sortParallel(
+      const result = await module.instance.sortParallel(
         transfer(data, [data.buffer]),
       );
       setTime(performance.now() - start);
@@ -43,10 +47,10 @@ export function WasmSample() {
       console.log(`out: ${result.slice(0, 10).toString()}...`);
       setWorking(false);
     },
-    [worker, setTime],
+    [module, setTime],
   );
 
-  if (!worker) {
+  if (!module) {
     return <div>Loading Worker...</div>;
   }
 
