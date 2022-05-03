@@ -4,5 +4,4 @@ function makeRandomArray(length: number) {
   );
 }
 
-export const BIG_ARRAY = makeRandomArray(1_000_000);
 export const REALLY_BIG_ARRAY = makeRandomArray(10_000_000);

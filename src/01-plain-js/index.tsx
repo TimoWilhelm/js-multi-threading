@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { BIG_ARRAY } from '../util';
+import { REALLY_BIG_ARRAY } from '../util';
 
 export function PlainJsSample() {
   const [time, setTime] = useState(-1);
@@ -13,7 +13,13 @@ export function PlainJsSample() {
       console.log(`in: ${data.slice(0, 10).toString()}...`);
 
       const start = performance.now();
-      data.sort();
+
+      // --- WORK ---
+
+      data.sort((a, b) => a - b);
+
+      // --- END WORK ---
+
       setTime(performance.now() - start);
 
       console.log(`out: ${data.slice(0, 10).toString()}...`);
@@ -30,12 +36,12 @@ export function PlainJsSample() {
           type="button"
           disabled={working}
           onClick={() => {
-            sortFunction(BIG_ARRAY);
+            sortFunction(REALLY_BIG_ARRAY);
           }}
         >
           {working
             ? 'Working...'
-            : `Sort ${BIG_ARRAY.length.toLocaleString()} elements`}
+            : `Sort ${REALLY_BIG_ARRAY.length.toLocaleString()} elements`}
         </button>
       </div>
       {time > 0 && <div>Duration: {time.toFixed(3)} ms</div>}

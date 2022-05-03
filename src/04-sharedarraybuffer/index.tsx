@@ -23,7 +23,13 @@ export function SharedArrayBufferSample() {
       console.log(`in: ${data.slice(0, 10).toString()}...`);
 
       const start = performance.now();
+
+      // --- WORK ---
+
       await worker.sort(data);
+
+      // --- END WORK ---
+
       setTime(performance.now() - start);
 
       console.log(`out: ${data.slice(0, 10).toString()}...`);

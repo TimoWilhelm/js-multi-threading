@@ -1,6 +1,6 @@
 import { wrap } from 'comlink';
 import { useCallback, useState } from 'react';
-import { BIG_ARRAY } from '../util';
+import { REALLY_BIG_ARRAY } from '../util';
 import { WorkerModule } from './worker';
 
 const worker = wrap<WorkerModule>(
@@ -19,7 +19,12 @@ export function WorkerSample() {
       console.log(`in: ${data.slice(0, 10).toString()}...`);
 
       const start = performance.now();
+
+      // --- WORK ---
+
       const result = await worker.sort(data);
+
+      // --- END WORK ---
       setTime(performance.now() - start);
 
       console.log(`out: ${result.slice(0, 10).toString()}...`);
@@ -36,12 +41,12 @@ export function WorkerSample() {
           type="button"
           disabled={working}
           onClick={async () => {
-            await sortFunction(BIG_ARRAY);
+            await sortFunction(REALLY_BIG_ARRAY);
           }}
         >
           {working
             ? 'Working...'
-            : `Sort ${BIG_ARRAY.length.toLocaleString()} elements`}
+            : `Sort ${REALLY_BIG_ARRAY.length.toLocaleString()} elements`}
         </button>
       </div>
       {time > 0 && <div>Duration: {time.toFixed(3)} ms</div>}

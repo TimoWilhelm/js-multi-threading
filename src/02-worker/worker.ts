@@ -1,7 +1,7 @@
 import { expose } from 'comlink';
 
 function sort(array: number[]) {
-  return array.sort();
+  return array.sort((a, b) => a - b);
 }
 
 const module = { sort };

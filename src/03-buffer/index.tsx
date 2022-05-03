@@ -19,7 +19,13 @@ export function BufferSample() {
       console.log(`in: ${data.slice(0, 10).toString()}...`);
 
       const start = performance.now();
+
+      // --- WORK ---
+
       const result = await worker.sort(transfer(data, [data.buffer]));
+
+      // --- END WORK ---
+
       setTime(performance.now() - start);
 
       console.log(`out: ${result.slice(0, 10).toString()}...`);

@@ -1,7 +1,10 @@
 import { expose, transfer } from 'comlink';
 
 function sort(array: Int32Array) {
-  return transfer(array.sort(), [array.buffer]);
+  return transfer(
+    array.sort((a, b) => a - b),
+    [array.buffer],
+  );
 }
 
 const module = { sort };
