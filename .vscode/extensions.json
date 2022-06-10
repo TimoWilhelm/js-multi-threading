@@ -2,6 +2,6 @@
   "recommendations": [
     "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
-    "matklad.rust-analyzer"
+    "rust-lang.rust-analyzer"
   ]
 }
