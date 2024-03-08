@@ -12,7 +12,7 @@
     }
   ],
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": "explicit"
   },
   "rust-analyzer.linkedProjects": [
     "wasm/Cargo.toml"
